@@ -1,0 +1,47 @@
+{
+  "name": "reactjs-authify-crudx",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "A React-based CRUD application with authentication features. [VikrantXCode]",
+  "author": "Vikrant Parmar <vikrant.parmar91@gmail.com>",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.1.10",
+    "@mui/material": "^6.1.10",
+    "@reduxjs/toolkit": "^2.4.0",
+    "@tanstack/react-query": "^5.62.7",
+    "axios": "^1.7.9",
+    "bootstrap": "^5.3.3",
+    "formik": "^2.4.6",
+    "notistack": "^3.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.1.3",
+    "react-router": "^6.28.0",
+    "react-router-dom": "^6.28.0",
+    "reactjs-authify-crudx": "file:",
+    "yup": "^1.5.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.15.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "globals": "^15.12.0",
+    "redux": "^4.2.1",
+    "redux-devtools-extension": "^2.13.9",
+    "vite": "^4.0.0"
+  }
+}
