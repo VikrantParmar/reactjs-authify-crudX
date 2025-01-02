@@ -90,6 +90,8 @@ Make sure you have the following installed:
 
 This structure helps in maintaining clean, modular code by separating concerns based on the functionality of each part of the application. You can expand and add additional directories as the project grows.
 
+### Visit the Laravel APP For APIs GItHub Repository [laravel-jwt-api-crudX](https://github.com/VikrantParmar/laravel-jwt-api-crudX)
+### Visit the Postman Docs for more details [Postman Docs](https://documenter.getpostman.com/view/39353609/2sAYJ7geHA)
 
 ## Screenshots
 <h3 align="center">Home Page</h3>
