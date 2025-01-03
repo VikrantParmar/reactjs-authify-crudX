@@ -219,6 +219,9 @@ button:focus-visible {
   border-radius: 10px;
   padding: 10px;
 }
+.activeTab {
+  font-weight: bold !important;
+}
 
 /*  Media Query  */
 
@@ -226,10 +229,4 @@ button:focus-visible {
   .desktop-only {
     display: none !important;
   }
-}
-
-
-
-.activeTab {
-  font-weight: bold !important;
 }
