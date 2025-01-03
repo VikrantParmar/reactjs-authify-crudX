@@ -48,6 +48,7 @@ function getJwtToken() {
 }
 // Set JWT token in storage
 axiosServices.setJwtToken = function (token, rememberMe = true) {
+  localStorage.setItem("rememberMe", rememberMe);
   if (rememberMe) {
     localStorage.setItem("token", token);
   } else {

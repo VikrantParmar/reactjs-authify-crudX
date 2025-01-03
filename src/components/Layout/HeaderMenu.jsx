@@ -18,12 +18,21 @@ import {
   ListItemIcon,
   Divider,
   Tooltip,
+  Select,
+  Chip,
 } from "@mui/material";
-import { Menu as MenuIcon, Logout } from "@mui/icons-material";
+import {
+  Menu as MenuIcon,
+  Logout,
+  PersonAdd,
+  Person2Outlined,
+  PasswordOutlined,
+} from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import CommonHelper from "@/utils/commonHelpers";
 import { logout, resetError } from "@/store/auth/authSlice";
+import ThemeSwitcher from "@/components/Layout/ThemeSwitcher";
 
 const pages = [
   { name: "Home", path: "/", public: 1, auth: 1 },
@@ -32,7 +41,7 @@ const pages = [
   { name: "SignUp", path: "/register", public: 1, auth: 0 },
 ];
 
-function HeaderMenu() {
+function HeaderMenu({ currentTheme, onThemeChange }) {
   const dispatch = useDispatch();
   const { isLoggedIn, user } = useSelector((state) => state.auth);
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -252,6 +261,11 @@ function HeaderMenu() {
               return null;
             })}
           </Box>
+          <ThemeSwitcher
+            currentTheme={currentTheme}
+            onThemeChange={onThemeChange}
+          />
+
           {isLoggedIn && user ? (
             <>
               <Box
@@ -265,17 +279,18 @@ function HeaderMenu() {
                   <IconButton
                     onClick={handleClick}
                     size="small"
-                    sx={{ ml: 2 }}
+                    sx={{ ml: 0 }}
                     aria-controls={open ? "account-menu" : undefined}
                     aria-haspopup="true"
                     aria-expanded={open ? "true" : undefined}
                   >
                     <Avatar
                       sx={{
+                        fontWeight: "bold",
                         width: 40,
                         height: 40,
                         color: "primary.main",
-                        background: "secondary.main",
+                        backgroundColor: "secondary.main",
                       }}
                     >
                       {CommonHelper._nameInitials(user.full_name)}
@@ -321,14 +336,37 @@ function HeaderMenu() {
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
               >
                 <MenuItem>
-                  <strong>
-                    Hello, {user.full_name} [{user.unique_id}]
+                  <strong style={{ display: "flex", alignItems: "center" }}>
+                    Hello, {user.first_name}{" "}
+                    <Chip
+                      label={user.unique_id}
+                      size="small"
+                      color="primary"
+                      sx={{ marginLeft: "8px", verticalAlign: "middle" }}
+                    />
                   </strong>
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  <Avatar /> My account
+
+                <MenuItem
+                  onClick={handleClose}
+                  component={Link}
+                  to="/my-profile"
+                >
+                  <ListItemIcon>
+                    <Person2Outlined fontSize="small" />
+                  </ListItemIcon>
+                  My Account
                 </MenuItem>
-                <Divider />
+                <MenuItem
+                  onClick={handleClose}
+                  component={Link}
+                  to="/update-password"
+                >
+                  <ListItemIcon>
+                    <PasswordOutlined fontSize="small" />
+                  </ListItemIcon>
+                  Change Password
+                </MenuItem>
                 {/* <MenuItem onClick={handleClose}>
                   <ListItemIcon>
                     <PersonAdd fontSize="small" />

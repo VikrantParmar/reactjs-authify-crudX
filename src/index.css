@@ -140,7 +140,7 @@ button:focus-visible {
 }
 
 .menu {
-  margin-right: 4%;
+  margin-right: 2.3%;
 }
 
 .menu .menu-item {
@@ -226,4 +226,10 @@ button:focus-visible {
   .desktop-only {
     display: none !important;
   }
+}
+
+
+
+.activeTab {
+  font-weight: bold !important;
 }

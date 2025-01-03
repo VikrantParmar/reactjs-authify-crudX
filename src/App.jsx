@@ -1,52 +1,43 @@
-import React, { Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { CssBaseline, Box, CircularProgress } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import HeaderMenu from "./components/Layout/HeaderMenu";
 import Footer from "./components/Layout/Footer";
+import { SnackbarProvider } from "notistack";
+import lightTheme from "@/themes/lightTheme";
+import darkTheme from "./themes/darkTheme";
 import "./App.css";
 const HomePage = React.lazy(() => import("./pages/HomePage"));
 const LoginPage = React.lazy(() => import("./pages/Auth/LoginPage"));
 const RegisterPage = React.lazy(() => import("./pages/Auth/RegisterPage"));
+const ProfilePage = React.lazy(() => import("@/pages/Profile/ProfilePage"));
 const NotFoundPage = React.lazy(() => import("./pages/ErrorPages/Page404"));
-import { SnackbarProvider } from "notistack";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#0A0F24",
-    },
-    secondary: {
-      main: "#FAE3CF",
-    },
-    other: {
-      white: "#fff",
-      black: "#000",
-    },
-    background: {
-      default: "#f4f6f8",
-    },
-  },
-  typography: {
-    fontFamily: "Roboto, Arial, sans-serif", //monospace
-    h1: {
-      fontSize: "2rem",
-    },
-    body1: {
-      fontSize: "1rem",
-    },
-  },
-});
+const ProfilePage2 = React.lazy(() =>
+  import("@/components/Profile/ProfileForm")
+);
 function App() {
+  const [currentTheme, setCurrentTheme] = useState("dark");
+  const themes = {
+    light: lightTheme,
+    dark: darkTheme,
+  };
+  const handleThemeChange = (theme) => {
+    setCurrentTheme(theme);
+  };
+
   return (
     <SnackbarProvider
       maxSnack={1}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
     >
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={themes[currentTheme]}>
         <CssBaseline />
         <Box display="flex" flexDirection="column" minHeight="100vh">
-          <HeaderMenu />
+          <HeaderMenu
+            currentTheme={currentTheme}
+            onThemeChange={handleThemeChange}
+          />
           <Box
             component="main"
             sx={{ flexGrow: 1, bgcolor: "background.default", p: 3 }}
@@ -63,6 +54,9 @@ function App() {
                 <Route path="/home" element={<Navigate to="/" />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route path="/my-profile" element={<ProfilePage />} />
+                <Route path="/me" element={<ProfilePage2 />} />
+                <Route path="/update-password" element={<ProfilePage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </Suspense>

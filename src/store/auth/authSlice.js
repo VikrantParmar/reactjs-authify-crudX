@@ -1,5 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { register, login, logout } from "./authThunks"; // Import thunks
+import {
+  register,
+  login,
+  logout,
+  updateProfile,
+  fetchProfile,
+  updatePassword,
+} from "./authThunks"; // Import thunks
 
 // Load user from localStorage
 const user = JSON.parse(localStorage.getItem("user"));
@@ -10,6 +17,7 @@ const initialState = {
   isLoading: false,
   message: null,
   errors: null,
+  updateLoading: false, // For updating profile
 };
 
 const authSlice = createSlice({
@@ -19,6 +27,11 @@ const authSlice = createSlice({
     resetError: (state) => {
       state.message = null; // Reset error state
       state.errors = null;
+      state.isLoading = false;
+      state.updateLoading = null;
+    },
+    setUser: (state, action) => {
+      state.user = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -54,7 +67,7 @@ const authSlice = createSlice({
         state.isLoggedIn = true;
         state.user = action.payload?.data?.user;
         //state.message = null;
-        state.message = action.payload;
+        state.message = null; //action.payload?.data?.message;
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
@@ -80,10 +93,63 @@ const authSlice = createSlice({
         state.isLoggedIn = false;
         state.message = null; //action.payload;
         state.errors = null; //action.payload?.errors || null;
+      })
+      // Fetch Profile
+      .addCase(fetchProfile.pending, (state) => {
+        state.isLoading = true;
+        state.message = null;
+        state.errors = null;
+      })
+      .addCase(fetchProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload?.data?.user || null;
+        state.message = null;
+        state.errors = null;
+      })
+      .addCase(fetchProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.user = null;
+        state.message = action.payload;
+        state.errors = action.payload?.errors || null;
+      })
+      // Update Profile
+      .addCase(updateProfile.pending, (state) => {
+        state.updateLoading = true;
+        state.message = null;
+        state.errors = null;
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.updateLoading = false;
+        state.user = action.payload?.data?.user || null;
+        state.message = action.payload;
+        state.errors = null;
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
+        state.updateLoading = false;
+        state.message = action.payload;
+        state.errors = action.payload?.errors || null;
+      })
+
+      // Update Password
+      .addCase(updatePassword.pending, (state) => {
+        state.updateLoading = true;
+        state.message = null;
+        state.errors = null;
+      })
+      .addCase(updatePassword.fulfilled, (state, action) => {
+        state.updateLoading = false;
+        state.user = action.payload?.data?.user || null;
+        state.message = action.payload;
+        state.errors = null;
+      })
+      .addCase(updatePassword.rejected, (state, action) => {
+        state.updateLoading = false;
+        state.message = action.payload;
+        state.errors = action.payload?.errors || null;
       });
   },
 });
 
-export const { resetError } = authSlice.actions;
-export { login, register, logout }; // Re-export thunks
+export const { resetError, setUser } = authSlice.actions;
+export { login, register, logout, fetchProfile, updateProfile, updatePassword }; // Re-export thunks
 export default authSlice.reducer;

@@ -33,7 +33,10 @@ export function _loader({
     );
   } else if (type === "btn") {
     return isSubmitting ? (
-      <CircularProgress color="inherit" size={20} />
+      <>
+        <CircularProgress color="inherit" size={20} />
+        &nbsp;{btnTitle}
+      </>
     ) : (
       btnTitle
     );

@@ -91,3 +91,6 @@ eslintcache
 # Lock files (optional: if you don't want to track lock files)
 package-lock.json
 yarn.lock
+
+#custom files and folders
+_notes.txt
