@@ -15,7 +15,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateProfile, fetchProfile } from "@/store/auth/authThunks";
 import { _loader } from "@/utils/loaderHelper";
 import { useShowNotification } from "@/hooks/useShowNotification";
-import { NotificationMessage } from "@/components/custom/NotificationMessage";
+import { NotificationMessage } from "@/components/@extended/NotificationMessage";
+import AnimateButton from "@/components/@extended/AnimateButton";
 const ProfileForm = () => {
   const dispatch = useDispatch();
   const { showNotification } = useShowNotification();
@@ -26,10 +27,7 @@ const ProfileForm = () => {
   const validationSchema = Yup.object({
     first_name: Yup.string().required("First Name is required"),
     last_name: Yup.string().required("Last Name is required"),
-    /*  phone_number: Yup.string().required("Phone number is required"),
-    email: Yup.string()
-      .email("Invalid email format")
-      .required("Email is required"), */
+    phone_number: Yup.string().required("Phone number is required"),
   });
 
   useEffect(() => {
@@ -146,19 +144,21 @@ const ProfileForm = () => {
                     />
                   </Grid>
                   <Grid item>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      fullWidth
-                      disabled={updateLoading}
-                    >
-                      {_loader({
-                        type: "btn",
-                        isSubmitting: updateLoading,
-                        btnTitle: "Save Changes",
-                      })}
-                    </Button>
+                    <AnimateButton>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        disabled={updateLoading}
+                      >
+                        {_loader({
+                          type: "btn",
+                          isSubmitting: updateLoading,
+                          btnTitle: "Save Changes",
+                        })}
+                      </Button>
+                    </AnimateButton>
                   </Grid>
                 </Grid>
               </Form>

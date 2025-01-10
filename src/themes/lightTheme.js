@@ -2,32 +2,24 @@ import { createTheme } from "@mui/material/styles";
 
 const lightTheme = createTheme({
   palette: {
+    mode: "light", // 'light' mode
     primary: {
-      main: "#FAE3CF",
+      main: "#1976d2",
     },
     secondary: {
-      main: "#0A0F24",
-    },
-    other: {
-      white: "#fff",
-      black: "#000",
+      main: "#ff4081",
     },
     background: {
-      default: "#f4f6f8",
+      default: "#fafafa",
+      paper: "#ffffff",
+    },
+    text: {
+      primary: "#000000",
+      secondary: "#757575",
     },
   },
   typography: {
-    fontFamily: "Roboto, Arial, sans-serif",
-    h1: {
-      fontSize: "2rem",
-      color: "#0A0F24", // Font color for h1
-    },
-    body1: {
-      fontSize: "1rem",
-      color: "#0A0F24", // Font color for body1
-    },
-    // Optionally, you can apply color to other typography variants here as well
+    fontFamily: "Roboto, sans-serif",
   },
 });
-
 export default lightTheme;

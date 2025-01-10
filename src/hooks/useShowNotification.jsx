@@ -19,6 +19,7 @@ export const useShowNotification = () => {
       </div>,
       {
         variant, // 'success', 'error', 'info', 'warning'
+        autoHideDuration: 5000,
         action: (key) => (
           <button
             onClick={() => {

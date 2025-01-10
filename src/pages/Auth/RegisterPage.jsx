@@ -16,9 +16,9 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { register, resetError } from "@/store/auth/authSlice";
 import { useShowNotification } from "@/hooks/useShowNotification";
-import { NotificationMessage } from "@/components/custom/NotificationMessage";
+import { NotificationMessage } from "@/components/@extended/NotificationMessage";
 import { _loader } from "@/utils/loaderHelper";
-
+import AnimateButton from "@/components/@extended/AnimateButton";
 const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -64,8 +64,8 @@ const RegisterPage = () => {
       });
   };
   return (
-    <Container>
-      <Box className="auth-box" sx={{ mx: "auto", my: 5 }}>
+    <Container maxWidth="xs">
+      <Box sx={{ mx: "auto", my: 5 }}>
         <Card>
           <CardContent>
             <Typography variant="h4" gutterBottom align="center">
@@ -197,19 +197,21 @@ const RegisterPage = () => {
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        disabled={isLoading}
-                      >
-                        {_loader({
-                          type: "btn",
-                          isSubmitting: isLoading,
-                          btnTitle: "Register",
-                        })}
-                      </Button>
+                      <AnimateButton>
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          color="primary"
+                          fullWidth
+                          disabled={isLoading}
+                        >
+                          {_loader({
+                            type: "btn",
+                            isSubmitting: isLoading,
+                            btnTitle: "Register",
+                          })}
+                        </Button>
+                      </AnimateButton>
                     </Grid>
                   </Grid>
                 </Form>

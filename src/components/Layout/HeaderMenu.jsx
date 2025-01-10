@@ -27,13 +27,14 @@ import {
   PersonAdd,
   Person2Outlined,
   PasswordOutlined,
+  ExpandMore,
 } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import CommonHelper from "@/utils/commonHelpers";
 import { logout, resetError } from "@/store/auth/authSlice";
 import ThemeSwitcher from "@/components/Layout/ThemeSwitcher";
-
+import config from "@/config";
 const pages = [
   { name: "Home", path: "/", public: 1, auth: 1 },
   { name: "Article", path: "/article", public: 1, auth: 1 },
@@ -43,14 +44,14 @@ const pages = [
 
 function HeaderMenu({ currentTheme, onThemeChange }) {
   const dispatch = useDispatch();
-  const { isLoggedIn, user } = useSelector((state) => state.auth);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
-
+  const adminRoleId = config.roles.ADMIN_ROLE_ID;
   const handleNavigation = (page) => {
     navigate(page.path);
   };
@@ -81,7 +82,7 @@ function HeaderMenu({ currentTheme, onThemeChange }) {
     dispatch(logout())
       .unwrap()
       .then((response) => {
-        navigate("/home", {
+        navigate("/", {
           replace: true,
         });
       })
@@ -100,10 +101,17 @@ function HeaderMenu({ currentTheme, onThemeChange }) {
               textDecoration: "none",
             }}
           >
-            <img
+            {/* <img
               src={"/react.svg"}
               className="header-logo"
               alt={`${import.meta.env.VITE_APP_NAME} logo`}
+              sx={{ display: { xs: "none", md: "flex" } }}
+            /> */}
+            <Box
+              component="img"
+              src="/react.svg"
+              alt={`${import.meta.env.VITE_APP_NAME} logo`}
+              className="header-logo"
               sx={{ display: { xs: "none", md: "flex" } }}
             />
 
@@ -120,6 +128,21 @@ function HeaderMenu({ currentTheme, onThemeChange }) {
               {import.meta.env.VITE_APP_NAME}
             </Typography>
           </Link>
+          {/* Category Dropdown */}
+
+          {/* 
+          mobile
+           {categoryPages.map((category) => (
+                    <ListItem
+                      key={category.name}
+                      button
+                      onClick={() => handleNavigation(category.path)}
+                    >
+                      <ListItemText primary={category.name} />
+                    </ListItem>
+                  ))}
+                  
+                  */}
           {/* Mobile Menu Icon */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -242,8 +265,8 @@ function HeaderMenu({ currentTheme, onThemeChange }) {
           >
             {pages.map((page, index) => {
               if (
-                (isLoggedIn && page.auth === 1) ||
-                (!isLoggedIn && page.public === 1)
+                (isAuthenticated && page.auth === 1) ||
+                (!isAuthenticated && page.public === 1)
               ) {
                 return (
                   <Button
@@ -260,13 +283,24 @@ function HeaderMenu({ currentTheme, onThemeChange }) {
               }
               return null;
             })}
+            {isAuthenticated && user && user.role_id === adminRoleId && (
+              <Button
+                key={"categories"}
+                className={`menu-item ${
+                  location.pathname === "/categories" ? "active" : ""
+                }`}
+                onClick={() => handleNavigation({ path: "/categories" })}
+                sx={{ my: 2, mr: 1, display: "block" }}
+              >
+                Categories
+              </Button>
+            )}
           </Box>
-          <ThemeSwitcher
+          {/* <ThemeSwitcher
             currentTheme={currentTheme}
             onThemeChange={onThemeChange}
-          />
-
-          {isLoggedIn && user ? (
+          /> */}
+          {isAuthenticated && user ? (
             <>
               <Box
                 sx={{

@@ -14,8 +14,8 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { updatePassword } from "@/store/auth/authSlice";
 import { _loader } from "@/utils/loaderHelper";
-import { NotificationMessage } from "@/components/custom/NotificationMessage";
-
+import { NotificationMessage } from "@/components/@extended/NotificationMessage";
+import AnimateButton from "@/components/@extended/AnimateButton";
 const ChangePasswordForm = () => {
   const dispatch = useDispatch();
   const { updateLoading, message } = useSelector((state) => state.auth);
@@ -128,19 +128,21 @@ const ChangePasswordForm = () => {
                     />
                   </Grid>
                   <Grid item>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      fullWidth
-                      disabled={updateLoading}
-                    >
-                      {_loader({
-                        type: "btn",
-                        isSubmitting: updateLoading,
-                        btnTitle: "Update Password",
-                      })}
-                    </Button>
+                    <AnimateButton>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        disabled={updateLoading}
+                      >
+                        {_loader({
+                          type: "btn",
+                          isSubmitting: updateLoading,
+                          btnTitle: "Update Password",
+                        })}
+                      </Button>
+                    </AnimateButton>
                   </Grid>
                 </Grid>
               </Form>

@@ -12,7 +12,7 @@ import {
 const user = JSON.parse(localStorage.getItem("user"));
 
 const initialState = {
-  isLoggedIn: !!user,
+  isAuthenticated: !!user,
   user: user || null,
   isLoading: false,
   message: null,
@@ -44,13 +44,13 @@ const authSlice = createSlice({
       })
       .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isLoggedIn = false;
+        state.isAuthenticated = false;
         state.message = action.payload;
         state.errors = null;
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
-        state.isLoggedIn = false;
+        state.isAuthenticated = false;
         //state.error = action.payload;
         state.message = action.payload; //?.message || null; // Handle general message
         state.errors = action.payload?.errors || null; // Handle field-specific errors
@@ -64,14 +64,14 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isLoggedIn = true;
+        state.isAuthenticated = true;
         state.user = action.payload?.data?.user;
         //state.message = null;
         state.message = null; //action.payload?.data?.message;
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
-        state.isLoggedIn = false;
+        state.isAuthenticated = false;
         state.message = action.payload;
         state.errors = action.payload?.errors || null;
       })
@@ -84,13 +84,13 @@ const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.isLoading = false;
-        state.isLoggedIn = false;
+        state.isAuthenticated = false;
         state.user = null;
         state.message = null; //action.payload;
       })
       .addCase(logout.rejected, (state) => {
         state.isLoading = false;
-        state.isLoggedIn = false;
+        state.isAuthenticated = false;
         state.message = null; //action.payload;
         state.errors = null; //action.payload?.errors || null;
       })
