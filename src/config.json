@@ -1,3 +1,7 @@
 {
-  "APP_BASE_NAME": "VikrantXCode"
+  "APP_BASE_NAME": "VikrantXCode",
+  "roles" : {
+    "ADMIN_ROLE_ID" : 1,
+    "USER_ROLE_ID" : 2
+  }
 }

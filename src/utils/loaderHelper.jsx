@@ -1,9 +1,8 @@
-import { Box, CircularProgress, Stack, Button } from "@mui/material";
-//export function _loader({type = 1, isSubmitting = false, isAdd = true, btnTitle = ''}) {
+import { Box, CircularProgress, Stack } from "@mui/material";
 export function _loader({
   type,
   isSubmitting = false,
-  isAdd = 1,
+  isAdd = true,
   btnTitle = "",
 }) {
   if (type === "body") {
@@ -26,7 +25,7 @@ export function _loader({
   } else if (type === "crud") {
     return isSubmitting ? (
       <CircularProgress color="inherit" size={20} />
-    ) : Boolean(isAdd) ? (
+    ) : isAdd ? (
       "Update"
     ) : (
       "Add"

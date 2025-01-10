@@ -9,20 +9,7 @@ export const register = createAsyncThunk(
       const response = await AuthService.register(data);
       return response.data;
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-
-      // Check if there are specific validation errors in the response
-      const errors =
-        (error.response && error.response.data && error.response.data.errors) ||
-        null;
-
-      // Return the errors and message
-      return rejectWithValue({ message, errors });
+      return rejectWithValue(error);
     }
   }
 );
@@ -39,20 +26,7 @@ export const login = createAsyncThunk(
       //localStorage.setItem("token", response?.data?.data?.token);
       return response.data;
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-
-      // Check if there are specific validation errors in the response
-      const errors =
-        (error.response && error.response.data && error.response.data.errors) ||
-        null;
-
-      // Return the errors and message
-      return rejectWithValue({ message, errors });
+      return rejectWithValue(error);
     }
   }
 );
@@ -75,19 +49,7 @@ export const fetchProfile = createAsyncThunk(
       axiosServices.setUser(JSON.stringify(response.data?.data?.user));
       return response.data;
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-
-      // Check if there are specific validation errors in the response
-      const errors =
-        (error.response && error.response.data && error.response.data.errors) ||
-        null;
-      // Return the errors and message
-      return rejectWithValue({ message, errors });
+      return rejectWithValue(error);
     }
   }
 );
@@ -101,20 +63,7 @@ export const updateProfile = createAsyncThunk(
       axiosServices.setUser(JSON.stringify(response.data?.data?.user));
       return response.data;
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-
-      // Check if there are specific validation errors in the response
-      const errors =
-        (error.response && error.response.data && error.response.data.errors) ||
-        null;
-
-      // Return the errors and message
-      return rejectWithValue({ message, errors });
+      return rejectWithValue(error);
     }
   }
 );
@@ -127,20 +76,7 @@ export const updatePassword = createAsyncThunk(
       const response = await AuthService.updatePassword(data);
       return response.data;
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-
-      // Check if there are specific validation errors in the response
-      const errors =
-        (error.response && error.response.data && error.response.data.errors) ||
-        null;
-
-      // Return the errors and message
-      return rejectWithValue({ message, errors });
+      return rejectWithValue(error);
     }
   }
 );

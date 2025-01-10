@@ -19,7 +19,7 @@ axiosServices.interceptors.request.use(
   }
 );
 
-axiosServices.interceptors.response.use(
+/* axiosServices.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error?.response && error?.response?.status === 401) {
@@ -34,6 +34,31 @@ axiosServices.interceptors.response.use(
       }
     }
     return Promise.reject(error);
+  }
+); */
+axiosServices.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error?.response) {
+      const { status, data } = error.response;
+      const message = data?.message || error.message || "An error occurred";
+      const errors = data?.errors || null; // Extract validation or additional error details
+
+      // If the status is 401 (Unauthorized), perform specific actions
+      if (status === 401) {
+        localStorage.clear();
+        sessionStorage.clear();
+        if (window.location.pathname !== "/login") {
+          window.location.href = "/login";
+        }
+      }
+      return Promise.reject({ message, errors }); // Return both message and errors in the same structure
+    }
+    // If there's no response (network issues, etc.), return a generic message
+    return Promise.reject({
+      message: error.message || "Network Error",
+      errors: null,
+    });
   }
 );
 

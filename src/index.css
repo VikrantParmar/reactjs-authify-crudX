@@ -140,7 +140,8 @@ button:focus-visible {
 }
 
 .menu {
-  margin-right: 2.3%;
+  /* margin-right: 2.3%; */
+  margin-right: 5%;
 }
 
 .menu .menu-item {
@@ -174,13 +175,18 @@ button:focus-visible {
 
 }
 
-.home-about-us {
+.home-about-us,.home-why-me,.home-about-tech {
   margin-top: 3%;
 }
 
-.about-us {
+.about-us, .why-me {
   padding: 2%;
   background-color: #fff;
+  color: var(--bg-primary);
+}
+.why-tech {
+  padding: 2%;
+  background-color: var(--bg-primary);
   color: var(--bg-primary);
 }
 
@@ -223,10 +229,36 @@ button:focus-visible {
   font-weight: bold !important;
 }
 
+.rdt_TableCol{
+  background-color: #0a0f24 !important;
+   color: #fae3cf !important;
+}
 /*  Media Query  */
 
 @media (max-width: 960px) {
   .desktop-only {
     display: none !important;
   }
+}
+
+
+
+
+.features {
+  background-color: #f5f5f5;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+.about-me-icons{
+  color: var(--bg-primary) !important;
+  background-color: var(--bg-secondary) !important;
+}/* 
+.about-me-icons:hover{
+  background-color: var(--bg-primary) !important;
+  color: var(--bg-secondary) !important;
+} */
+.about-tech{
+  background-color: #fff;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
