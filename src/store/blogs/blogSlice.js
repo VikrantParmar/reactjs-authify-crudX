@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  fetchCategories,
-  insertCategory,
-  updateCategory,
-  deleteCategory,
-} from "@/store/categories/categoryThunk";
+  fetchBlogs,
+  insertBlog,
+  updateBlog,
+  deleteBlog,
+} from "@/store/blogs/blogThunk";
 const initialState = {
-  categories: [],
+  blogs: [],
   rowCount: 0,
   isLoading: false,
   isLoadingDelete: false,
@@ -14,12 +14,12 @@ const initialState = {
   isRefetching: true, // Indicates if the data is being refetched
 };
 
-const categorySlice = createSlice({
-  name: "categories",
+const blogSlice = createSlice({
+  name: "blogs",
   initialState,
   reducers: {
-    setCategories: (state, action) => {
-      state.categories = action.payload;
+    setBlogs: (state, action) => {
+      state.blogs = action.payload;
     },
     setRowCount: (state, action) => {
       state.rowCount = action.payload;
@@ -30,47 +30,47 @@ const categorySlice = createSlice({
     setError: (state, action) => {
       state.isError = action.payload;
     },
+    resetBlogs: (state) => {
+      state.blogs = [];
+      state.rowCount = 0;
+    },
   },
   extraReducers: (builder) => {
     builder
       //Fetch records
-      .addCase(fetchCategories.pending, (state) => {
+      .addCase(fetchBlogs.pending, (state) => {
         state.isLoading = true;
         state.isError = false;
         state.isRefetching = true;
       })
-      .addCase(fetchCategories.fulfilled, (state, action) => {
+      .addCase(fetchBlogs.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isRefetching = false;
         if (action.payload) {
-          state.categories = action.payload?.data?.list || [];
+          state.blogs = [...state.blogs, ...(action.payload?.data?.list || [])];
           state.rowCount = action.payload?.data?.pagination?.totalItems || 0;
         }
       })
-      .addCase(fetchCategories.rejected, (state, action) => {
+      .addCase(fetchBlogs.rejected, (state) => {
         state.isLoading = false;
         state.isError = true;
         state.isRefetching = false;
-        if (action.payload) {
-          state.categories = [];
-          state.rowCount = 0;
-        }
       })
 
       //Delete Record
-      .addCase(deleteCategory.pending, (state) => {
+      .addCase(deleteBlog.pending, (state) => {
         state.isLoadingDelete = true;
       })
-      .addCase(deleteCategory.fulfilled, (state) => {
+      .addCase(deleteBlog.fulfilled, (state) => {
         state.isLoadingDelete = false;
       })
-      .addCase(deleteCategory.rejected, (state) => {
+      .addCase(deleteBlog.rejected, (state) => {
         state.isLoadingDelete = false;
       });
   },
 });
 
-export const { setCategories, setRowCount, setLoading, setError } =
-  categorySlice.actions;
-export { fetchCategories, insertCategory, updateCategory, deleteCategory };
-export default categorySlice.reducer;
+export const { setBlogs, setRowCount, setLoading, setError, resetBlogs } =
+  blogSlice.actions;
+export { fetchBlogs, insertBlog, updateBlog, deleteBlog };
+export default blogSlice.reducer;

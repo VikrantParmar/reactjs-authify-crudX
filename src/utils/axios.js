@@ -19,23 +19,6 @@ axiosServices.interceptors.request.use(
   }
 );
 
-/* axiosServices.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error?.response && error?.response?.status === 401) {
-      // Handle unauthorized error (e.g., token expired)
-      //localStorage.removeItem("token");
-      // Optionally, redirect to login page or notify the user
-      localStorage.clear();
-      sessionStorage.clear();
-      if (window.location.pathname !== "/login") {
-        // Redirect to the login page if not already there
-        window.location.href = "/login";
-      }
-    }
-    return Promise.reject(error);
-  }
-); */
 axiosServices.interceptors.response.use(
   (response) => response,
   (error) => {
