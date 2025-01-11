@@ -37,10 +37,10 @@ import ThemeSwitcher from "@/components/Layout/ThemeSwitcher";
 import config from "@/config";
 const pages = [
   { name: "Home", path: "/", public: 1, auth: 1 },
-  { name: "Article", path: "/article", public: 1, auth: 1 },
+  { name: "Article", path: "/articles", public: 1, auth: 1 },
   { name: "Login", path: "/login", public: 1, auth: 0 },
   { name: "SignUp", path: "/register", public: 1, auth: 0 },
-  { name: "Hire Now", path: "/hire-me", public: 1, auth: 1 },
+  //{ name: "Hire Now", path: "/hire-me", public: 1, auth: 1 },
 ];
 
 function HeaderMenu({ currentTheme, onThemeChange }) {
@@ -92,7 +92,7 @@ function HeaderMenu({ currentTheme, onThemeChange }) {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Container>
         <Toolbar disableGutters>
           <Link
             to="/"
@@ -296,6 +296,16 @@ function HeaderMenu({ currentTheme, onThemeChange }) {
                 Categories
               </Button>
             )}
+            <Button
+              key={"hire-me"}
+              className={`menu-item ${
+                location.pathname === "/hire-me" ? "active" : ""
+              }  hire-me`}
+              onClick={() => handleNavigation({ path: "/hire-me" })}
+              sx={{ my: 2, mr: 1, display: "block" }}
+            >
+              Hire Now
+            </Button>
           </Box>
           {/* <ThemeSwitcher
             currentTheme={currentTheme}
@@ -308,6 +318,7 @@ function HeaderMenu({ currentTheme, onThemeChange }) {
                   display: "flex",
                   alignItems: "center",
                   textAlign: "center",
+                  ml: 2,
                 }}
               >
                 <Tooltip title="Account settings">
@@ -423,7 +434,8 @@ function HeaderMenu({ currentTheme, onThemeChange }) {
               </Menu>
             </>
           ) : (
-            <Box
+            <>
+              {/* <Box
               sx={{
                 width: 40,
                 height: 40,
@@ -432,7 +444,8 @@ function HeaderMenu({ currentTheme, onThemeChange }) {
                 alignItems: "center",
                 justifyContent: "center",
               }}
-            />
+            /> */}
+            </>
           )}
         </Toolbar>
       </Container>
