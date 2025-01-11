@@ -46,8 +46,21 @@ const blogSlice = createSlice({
       .addCase(fetchBlogs.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isRefetching = false;
-        if (action.payload) {
+        /* if (action.payload) {
           state.blogs = [...state.blogs, ...(action.payload?.data?.list || [])];
+          state.rowCount = action.payload?.data?.pagination?.totalItems || 0;
+        } */
+        if (action.payload) {
+          if (action.meta.arg.isAuthenticated) {
+            // If authenticated, replace the blogs with the new data
+            state.blogs = action.payload?.data?.list || [];
+          } else {
+            // If not authenticated, concatenate the new data with existing blogs
+            state.blogs = [
+              ...state.blogs,
+              ...(action.payload?.data?.list || []),
+            ];
+          }
           state.rowCount = action.payload?.data?.pagination?.totalItems || 0;
         }
       })

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "@mui/material";
-import MyBlog from "@/components/Blog/MyBlog";
+import BlogLayout from "@/components/Blog/BlogLayout";
 
-export default function Blog() {
+export default function BlogListPublic() {
   return (
     <Container>
-      <MyBlog />
+      <BlogLayout />
     </Container>
   );
 }

@@ -4,15 +4,20 @@ import CategoryService from "./categoryService";
 // Create the fetch thunk
 export const fetchCategories = createAsyncThunk(
   "categories/fetchCategories",
-  async ({ pageIndex, pageSize, sorting, filters }, { rejectWithValue }) => {
+  async (
+    { pageIndex, pageSize, sorting, filters, isAll },
+    { rejectWithValue }
+  ) => {
     try {
       // Call the CategoryService to fetch categories with the provided arguments
-      const response = await CategoryService.fetchCategoriesService(
-        pageIndex,
-        pageSize,
-        sorting,
-        filters
-      );
+      const response = isAll
+        ? await CategoryService.fetchAllCategoryService()
+        : await CategoryService.fetchCategoriesService(
+            pageIndex,
+            pageSize,
+            sorting,
+            filters
+          );
       // Return the data if the request is successful
       return response.data;
     } catch (error) {

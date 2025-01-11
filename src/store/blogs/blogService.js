@@ -11,7 +11,22 @@ const fetchBlogsService = async (pageIndex, pageSize, sorting, filters) => {
     },
   });
 };
-
+// Fetch blogs with pagination, sorting, and filters
+const fetchBlogByUserService = async (
+  pageIndex,
+  pageSize,
+  sorting,
+  filters
+) => {
+  return await axiosServices.get("blogs/my", {
+    params: {
+      pageIndex,
+      pageSize,
+      sorting: sorting,
+      filters: filters,
+    },
+  });
+};
 // Insert Blog
 const insertBlog = (newBlog) => {
   return axiosServices.post("blogs", newBlog).then((response) => response);
@@ -31,6 +46,7 @@ const deleteBlog = async (id) => {
 
 const BlogService = {
   fetchBlogsService,
+  fetchBlogByUserService,
   insertBlog,
   updateBlog,
   deleteBlog,

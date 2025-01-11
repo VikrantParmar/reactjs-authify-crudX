@@ -9,8 +9,11 @@ const NotFoundPage = React.lazy(() => import("@/pages/ErrorPages/Page404"));
 //const AdminPanel = React.lazy(() => import("@/pages/Admin/AdminPanel"));
 // Category-related imports
 const CategoryListPage = React.lazy(() => import("@/pages/Category/"));
-const BlogListPage = React.lazy(() => import("@/pages/Blog/"));
+const BlogListPublic = React.lazy(() => import("@/pages/Blog/BlogListPublic"));
 const BlogDetailPage = React.lazy(() => import("@/pages/Blog/"));
+const BlogPage = React.lazy(() => import("@/pages/Blog/"));
+const BlogAddPage = React.lazy(() => import("@/pages/Blog/BlogAddPage"));
+
 const adminRoleId = config.roles.ADMIN_ROLE_ID;
 
 const routes = [
@@ -27,7 +30,12 @@ const routes = [
   { path: "/categories", element: CategoryListPage, roles: [adminRoleId] },
 
   // Article-related routes
-  { path: "/articles", element: BlogListPage, isPublic: true },
+  { path: "/my-articles", element: BlogPage, authRequired: true },
+  { path: "/article-post", element: BlogAddPage, authRequired: true },
+  { path: "/article-post/:id", element: BlogAddPage, authRequired: true },
+
+  // Article-related Public routes
+  { path: "/articles", element: BlogListPublic, isPublic: true },
   { path: "/article/:id", element: BlogDetailPage, isPublic: true },
 
   /* 
