@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "/",
   "description": "A React-based CRUD application with authentication features. [VikrantXCode]",
   "author": "Vikrant Parmar <vikrant.parmar91@gmail.com>",
   "keywords": [
