@@ -72,7 +72,7 @@ export default function FormManager({ recordData, closeModal, onSuccess }) {
           })
           .catch((error) => {
             setSubmitting(false);
-            if (error?.errors) {
+            if (error?.errors && Object.keys(error.errors).length > 0) {
               setErrors(error.errors);
             } else {
               setStatus({
@@ -100,7 +100,7 @@ export default function FormManager({ recordData, closeModal, onSuccess }) {
           })
           .catch((error) => {
             setSubmitting(false);
-            if (error?.errors) {
+            if (error?.errors && Object.keys(error.errors).length > 0) {
               setErrors(error.errors);
             } else {
               setStatus({
@@ -114,7 +114,7 @@ export default function FormManager({ recordData, closeModal, onSuccess }) {
       }
     } catch (error) {
       setSubmitting(false);
-      if (error?.errors) {
+      if (error?.errors && Object.keys(error.errors).length > 0) {
         setErrors(error.errors);
       } else {
         setStatus({
