@@ -14,7 +14,7 @@ import {
 } from "@/routes/CustomRoutes";
 import lightTheme from "./themes/lightTheme";
 import darkTheme from "./themes/darkTheme";
-
+import { Analytics } from "@vercel/analytics/react"
 function App() {
   const [currentTheme, setCurrentTheme] = React.useState("dark");
   const themes = { light: lightTheme, dark: darkTheme };
@@ -24,6 +24,7 @@ function App() {
       maxSnack={1}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
     >
+      <Analytics/>
       <ThemeProvider theme={themes[currentTheme]}>
         <CssBaseline />
         <Box display="flex" flexDirection="column" minHeight="100vh">

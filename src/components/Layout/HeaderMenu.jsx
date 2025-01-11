@@ -40,6 +40,7 @@ const pages = [
   { name: "Article", path: "/article", public: 1, auth: 1 },
   { name: "Login", path: "/login", public: 1, auth: 0 },
   { name: "SignUp", path: "/register", public: 1, auth: 0 },
+  { name: "Hire Now", path: "/hire-me", public: 1, auth: 1 },
 ];
 
 function HeaderMenu({ currentTheme, onThemeChange }) {
@@ -273,7 +274,7 @@ function HeaderMenu({ currentTheme, onThemeChange }) {
                     key={index}
                     className={`menu-item ${
                       location.pathname === page.path ? "active" : ""
-                    }`}
+                    } ${page.path === "/hire-me" ? "hire-me" : ""}`}
                     onClick={() => handleNavigation(page)}
                     sx={{ my: 2, mr: 1, display: "block" }}
                   >
