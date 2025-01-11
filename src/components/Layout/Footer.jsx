@@ -38,7 +38,7 @@ const Footer = () => {
 
           <Grid item xs={12} sm={4} textAlign="center">
             <Typography variant="h5" sx={{ mb: 1 }} className="header-app-name">
-              Follow Us
+              Follow Me
             </Typography>
             <Divider sx={{ borderColor: "#fff" }} />
             <Typography variant="body2" sx={{ color: "#fff", mt: 2 }}>
@@ -62,7 +62,7 @@ const Footer = () => {
           </Grid>
           <Grid item xs={12} sm={4} textAlign="center">
             <Typography variant="h5" sx={{ mb: 1 }} className="header-app-name">
-              Hire Me
+              Contact Me
             </Typography>
             <Divider sx={{ borderColor: "#fff" }} />
 
