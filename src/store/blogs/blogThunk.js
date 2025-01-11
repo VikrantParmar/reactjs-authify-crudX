@@ -4,15 +4,25 @@ import BlogService from "./blogService";
 // Create the fetch thunk
 export const fetchBlogs = createAsyncThunk(
   "blogs/fetchBlogs",
-  async ({ pageIndex, pageSize, sorting, filters }, { rejectWithValue }) => {
+  async (
+    { pageIndex, pageSize, sorting, filters, isAuthenticated },
+    { rejectWithValue }
+  ) => {
     try {
       // Call the BlogService to fetch blogs with the provided arguments
-      const response = await BlogService.fetchBlogsService(
-        pageIndex,
-        pageSize,
-        sorting,
-        filters
-      );
+      const response = isAuthenticated
+        ? await BlogService.fetchBlogByUserService(
+            pageIndex,
+            pageSize,
+            sorting,
+            filters
+          )
+        : await BlogService.fetchBlogsService(
+            pageIndex,
+            pageSize,
+            sorting,
+            filters
+          );
       // Return the data if the request is successful
       return response.data;
     } catch (error) {

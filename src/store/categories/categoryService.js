@@ -17,6 +17,10 @@ const fetchCategoriesService = async (
   });
 };
 
+const fetchAllCategoryService = async () => {
+  return await axiosServices.get("categories/all");
+};
+
 // Insert Category
 const insertCategory = (newCategory) => {
   return axiosServices
@@ -41,6 +45,7 @@ const CategoryService = {
   insertCategory,
   updateCategory,
   deleteCategory,
+  fetchAllCategoryService,
 };
 
 export default CategoryService;

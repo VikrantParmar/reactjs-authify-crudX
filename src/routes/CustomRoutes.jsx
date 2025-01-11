@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
@@ -12,8 +12,22 @@ export const GuestRoute = ({ children }) => {
 };
 
 export const AuthenticatedRoute = ({ children }) => {
+  const { showNotification } = useShowNotification();
   const { isAuthenticated } = useAuth();
-  return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
+  useEffect(() => {
+    if (!isAuthenticated) {
+      showNotification(
+        "To access this page or content, kindly log in.",
+        "error"
+      );
+    }
+  }, [isAuthenticated, showNotification]);
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+  return <>{children}</>;
+  //return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
 };
 
 export const PrivateRoute = ({ children, roles }) => {

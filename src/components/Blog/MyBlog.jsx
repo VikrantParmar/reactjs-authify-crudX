@@ -13,22 +13,33 @@ import {
   Chip,
   Avatar,
   Divider,
+  IconButton,
 } from "@mui/material";
 
 import { useTheme } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBlogs, resetBlogs } from "@/store/blogs/blogSlice"; 
-import AnimateButton from "../@extended/AnimateButton";
+import { fetchBlogs, resetBlogs, deleteBlog } from "@/store/blogs/blogSlice";
+import AnimateButton from "@/components/@extended/AnimateButton";
 import { _loader } from "@/utils/loaderHelper";
-
-const BlogLayout = () => {
+import { useAuth } from "@/hooks/useAuth";
+import { AddOutlined, Delete, Edit } from "@mui/icons-material";
+import { useNavigate } from "react-router";
+import { NotificationMessage } from "@/components/@extended/NotificationMessage";
+import AlertRecordDelete from "./AlertRecordDelete";
+const MyBlog = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { isAuthenticated } = useAuth();
   const { blogs, isLoading, rowCount } = useSelector((state) => state.blogs);
 
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(9);
   const [isFetching, setIsFetching] = useState(false);
+
+  // Modal states for deleting a blog
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState(null);
 
   useEffect(() => {
     dispatch(resetBlogs());
@@ -37,7 +48,13 @@ const BlogLayout = () => {
   useEffect(() => {
     const fetchBlogsData = async () => {
       setIsFetching(true);
-      await dispatch(fetchBlogs({ pageIndex: pageIndex, pageSize: pageSize }));
+      await dispatch(
+        fetchBlogs({
+          pageIndex: pageIndex,
+          pageSize: pageSize,
+          isAuthenticated: isAuthenticated,
+        })
+      );
       setIsFetching(false);
     };
 
@@ -64,7 +81,28 @@ const BlogLayout = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [blogs, rowCount, isFetching, isLoading]);
+  const handleAddArticle = () => {
+    navigate("/article-post");
+  };
+  const handleEditClick = (blog) => {
+    navigate(`/article-post/${blog?.id}`, { state: { blog } });
+  };
+  const handleDeleteClick = (blog) => {
+    setSelectedRecord(blog);
+    setIsModalDeleteOpen(true);
+  };
 
+  const handleDeleteBlog = (deletedBlog) => {
+    if (deletedBlog) {
+      dispatch(
+        fetchBlogs({
+          pageIndex: pageIndex,
+          pageSize: pageSize,
+          isAuthenticated: isAuthenticated,
+        })
+      );
+    }
+  };
   return (
     <section className="blogs-page">
       <Box className="blogs">
@@ -79,7 +117,7 @@ const BlogLayout = () => {
                   variant="h4"
                   sx={{ fontWeight: 700, position: "relative", mb: 5 }}
                 >
-                  <span>Articles</span>
+                  <span>My Articles</span>
                   <Box
                     sx={{
                       content: '""',
@@ -93,6 +131,7 @@ const BlogLayout = () => {
                     }}
                   />
                 </Typography>
+
                 <Typography variant="body5" textAlign="center">
                   To implement pagination for articles using infinite scroll on
                   a webpage, <br />
@@ -100,23 +139,55 @@ const BlogLayout = () => {
                   downward.
                 </Typography>
                 <Divider />
-                <Typography variant="h6" textAlign="right" sx={{ mt: 2 }}>
-                  <Chip
-                    sx={{
-                      px: 1,
-                      fontWeight: "bold",
-                      height: 50,
-                      fontSize: "1rem",
-                    }}
-                    avatar={
-                      <Avatar className="avatar-art-count">{rowCount}</Avatar>
-                    }
-                    label="Total Records"
-                  />
-                </Typography>
+                <Grid
+                  container
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <AnimateButton>
+                      <Button
+                        onClick={handleAddArticle}
+                        variant="contained"
+                        startIcon={<AddOutlined />}
+                      >
+                        Add Article
+                      </Button>
+                    </AnimateButton>
+                  </Grid>
+
+                  <Grid item>
+                    <Typography variant="h6" textAlign="right" sx={{ mt: 2 }}>
+                      <Chip
+                        sx={{
+                          px: 1,
+                          fontWeight: "bold",
+                          height: 50,
+                          fontSize: "1rem",
+                        }}
+                        avatar={
+                          <Avatar className="avatar-art-count">
+                            {rowCount}
+                          </Avatar>
+                        }
+                        label="Total Records"
+                      />
+                    </Typography>
+                  </Grid>
+                </Grid>
               </Box>
-              {/* Blog List */}
+
               <Grid container spacing={5} justifyContent="left">
+                <Grid item xs={12} sm={12} md={12} key={"A"}>
+                  <NotificationMessage
+                    data={{
+                      status: false,
+                      message:
+                        "The article you created should not be published due to data publishing restrictions.<br/>It is currently only accessible to you under your account.",
+                    }}
+                  />
+                </Grid>
+
                 {blogs.length > 0
                   ? blogs.map((blog, index) => (
                       <Grid item xs={12} sm={6} md={4} key={index}>
@@ -125,10 +196,7 @@ const BlogLayout = () => {
                             <CardMedia
                               component="img"
                               height="140"
-                              image={
-                                blog.blog_image_url.original ||
-                                `https://placehold.co/600x400?text=No+Image`
-                              }
+                              image={`https://placehold.co/600x400?text=${blog.title}`}
                               alt={blog.title}
                               onError={(e) => {
                                 e.target.onerror = null;
@@ -165,16 +233,24 @@ const BlogLayout = () => {
                               <Typography variant="body2">
                                 &nbsp; {blog.formatted_created_at || "N/A"}
                               </Typography>
-                              <AnimateButton>
-                                <Button
-                                  size="small"
-                                  variant="contained"
-                                  color="primary"
-                                  fullWidth
-                                >
-                                  View
-                                </Button>
-                              </AnimateButton>
+                              <Box sx={{ display: "flex", gap: 1 }}>
+                                <AnimateButton>
+                                  <IconButton
+                                    color="primary"
+                                    onClick={() => handleEditClick(blog)}
+                                  >
+                                    <Edit />
+                                  </IconButton>
+                                </AnimateButton>
+                                <AnimateButton>
+                                  <IconButton
+                                    color="error"
+                                    onClick={() => handleDeleteClick(blog)}
+                                  >
+                                    <Delete />
+                                  </IconButton>
+                                </AnimateButton>
+                              </Box>
                             </Box>
                           </CardActions>
                         </Card>
@@ -193,8 +269,15 @@ const BlogLayout = () => {
           </Box>
         </Container>
       </Box>
+      <AlertRecordDelete
+        id={Number(selectedRecord?.id)}
+        onClose={() => setIsModalDeleteOpen(false)}
+        recordData={selectedRecord}
+        open={isModalDeleteOpen}
+        onSuccess={handleDeleteBlog}
+      />
     </section>
   );
 };
 
-export default BlogLayout;
+export default MyBlog;

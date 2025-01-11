@@ -304,3 +304,24 @@ button:focus-visible {
                 0 0 40px rgba(249, 25, 66, 0.6);
   }
 }
+
+.avatar-art-count {
+  background-color: var(--bg-primary) !important; 
+  color: #FAE3CF !important;
+  font-weight: bold;
+  width: 36px !important;
+  height: 36px !important;
+  font-size: 1rem !important;
+}
+
+.article-card {
+  background-color: #FFF !important; 
+  color: var(--bg-primary) !important; 
+  box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.1) !important; 
+  transition: all 0.3s ease !important; 
+}
+
+.article-card:hover {
+  box-shadow: 0 0 4px #0A0F24 !important; 
+  transform: scale(1.05) !important; 
+}

@@ -38,6 +38,7 @@ import config from "@/config";
 const pages = [
   { name: "Home", path: "/", public: 1, auth: 1 },
   { name: "Article", path: "/articles", public: 1, auth: 1 },
+  { name: "My Post", path: "/my-articles", public: 1, auth: 1 },
   { name: "Login", path: "/login", public: 1, auth: 0 },
   { name: "SignUp", path: "/register", public: 1, auth: 0 },
   //{ name: "Hire Now", path: "/hire-me", public: 1, auth: 1 },
