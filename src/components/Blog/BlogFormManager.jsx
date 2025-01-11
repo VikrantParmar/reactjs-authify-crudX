@@ -22,7 +22,7 @@ import { useShowNotification } from "@/hooks/useShowNotification";
 import { NotificationMessage } from "@/components/@extended/NotificationMessage";
 import { useDispatch, useSelector } from "react-redux";
 import AnimateButton from "@/components/@extended/AnimateButton";
-import { insertBlog, updateBlog } from "@/store/blogs/blogSlice"; 
+import { insertBlog, updateBlog } from "@/store/blogs/blogSlice";
 import { fetchCategories } from "@/store/categories/categorySlice";
 import { useLocation, useNavigate } from "react-router";
 const blogDataSchema = Yup.object().shape({
@@ -94,7 +94,7 @@ export default function BlogFormManager() {
           })
           .catch((error) => {
             setSubmitting(false);
-            if (error?.errors) {
+            if (error?.errors && Object.keys(error.errors).length > 0) {
               setErrors(error.errors);
             } else {
               setStatus({
@@ -119,7 +119,7 @@ export default function BlogFormManager() {
           })
           .catch((error) => {
             setSubmitting(false);
-            if (error?.errors) {
+            if (error?.errors && Object.keys(error.errors).length > 0) {
               setErrors(error.errors);
             } else {
               setStatus({
@@ -132,7 +132,7 @@ export default function BlogFormManager() {
       }
     } catch (error) {
       setSubmitting(false);
-      if (error?.errors) {
+      if (error?.errors && Object.keys(error.errors).length > 0) {
         setErrors(error.errors);
       } else {
         setStatus({

@@ -57,7 +57,7 @@ const RegisterPage = () => {
         });
       })
       .catch((error) => {
-        if (error?.errors) {
+        if (error?.errors && Object.keys(error.errors).length > 0) {
           // Set API validation errors on the form fields
           setErrors(error.errors);
         }
