@@ -8,7 +8,12 @@ export const useShowNotification = () => {
     // Replace <br> and line breaks with \n for line breaks
     const errorMsg = message.replace(/<br\s*\/?>|\r\n|\n|\r/gi, "\n");
     const messages = errorMsg.split("\n");
-
+    const variantStyles = {
+      success: { backgroundColor: "#4caf50", color: "#fff" },
+      error: { backgroundColor: "#f44336", color: "#fff" },
+      info: { backgroundColor: "#2196f3", color: "#fff" },
+      warning: { backgroundColor: "#ff9800", color: "#fff" },
+    };
     const key = enqueueSnackbar(
       <div>
         {messages.map((line, index) => (
@@ -36,6 +41,7 @@ export const useShowNotification = () => {
             X
           </button>
         ),
+        style: variantStyles[variant] || variantStyles.info,
       }
     );
 

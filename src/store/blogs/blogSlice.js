@@ -51,7 +51,7 @@ const blogSlice = createSlice({
           state.rowCount = action.payload?.data?.pagination?.totalItems || 0;
         } */
         if (action.payload) {
-          if (action.meta.arg.isAuthenticated) {
+          if (action.meta.arg.isAuthenticated && !action.meta.arg.isAdmin) {
             // If authenticated, replace the blogs with the new data
             state.blogs = action.payload?.data?.list || [];
           } else {

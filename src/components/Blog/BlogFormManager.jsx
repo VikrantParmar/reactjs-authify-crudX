@@ -256,7 +256,7 @@ export default function BlogFormManager() {
                         {_loader({
                           type: "crud",
                           isSubmitting: isSubmitting,
-                          isAdd: blogData,
+                          isAdd: blogData ? true : false,
                         })}
                       </Button>
                     </AnimateButton>
