@@ -90,6 +90,16 @@ Make sure you have the following installed:
 
 This structure helps in maintaining clean, modular code by separating concerns based on the functionality of each part of the application. You can expand and add additional directories as the project grows.
 
+
+## Default Credentials for Testing
+
+| **Role**   | **Username**                      | **Password**   |
+|------------|-----------------------------------|----------------|
+| **Admin**  | vikrant-admin@example.com         | 123456789      |
+| **User**   | vikrant-user@example.com          | 123456789      |
+| **User-Inactive**   | vikrant-inactive@example.com          | 123456789      |
+
+
 ### Visit the Laravel APP For APIs GItHub Repository [laravel-jwt-api-crudX](https://github.com/VikrantParmar/laravel-jwt-api-crudX)
 ### Visit the Postman Docs for more details [Postman Docs](https://documenter.getpostman.com/view/39353609/2sAYJ7geHA)
 
