@@ -26,17 +26,19 @@ import { AddOutlined, Delete, Edit } from "@mui/icons-material";
 import { useNavigate } from "react-router";
 import { NotificationMessage } from "@/components/@extended/NotificationMessage";
 import AlertRecordDelete from "./AlertRecordDelete";
+import config from "@/config";
 const MyBlog = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuth();
+  const adminRoleId = config.roles.ADMIN_ROLE_ID;
   const { blogs, isLoading, rowCount } = useSelector((state) => state.blogs);
 
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(9);
   const [isFetching, setIsFetching] = useState(false);
-
+  const [isAdmin, setIsAdmin] = useState(user.role_id === adminRoleId);
   // Modal states for deleting a blog
   const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
@@ -53,6 +55,7 @@ const MyBlog = () => {
           pageIndex: pageIndex,
           pageSize: pageSize,
           isAuthenticated: isAuthenticated,
+          isAdmin: isAdmin,
         })
       );
       setIsFetching(false);
@@ -99,6 +102,7 @@ const MyBlog = () => {
           pageIndex: pageIndex,
           pageSize: pageSize,
           isAuthenticated: isAuthenticated,
+          isAdmin: isAdmin,
         })
       );
     }
@@ -117,7 +121,11 @@ const MyBlog = () => {
                   variant="h4"
                   sx={{ fontWeight: 700, position: "relative", mb: 5 }}
                 >
-                  <span>My Articles</span>
+                  {isAdmin ? (
+                    <span>All Articles</span>
+                  ) : (
+                    <span>My Articles</span>
+                  )}
                   <Box
                     sx={{
                       content: '""',
@@ -145,15 +153,17 @@ const MyBlog = () => {
                   alignItems="center"
                 >
                   <Grid item>
-                    <AnimateButton>
-                      <Button
-                        onClick={handleAddArticle}
-                        variant="contained"
-                        startIcon={<AddOutlined />}
-                      >
-                        Add Article
-                      </Button>
-                    </AnimateButton>
+                    {!isAdmin && (
+                      <AnimateButton>
+                        <Button
+                          onClick={handleAddArticle}
+                          variant="contained"
+                          startIcon={<AddOutlined />}
+                        >
+                          Add Article
+                        </Button>
+                      </AnimateButton>
+                    )}
                   </Grid>
 
                   <Grid item>
@@ -178,15 +188,17 @@ const MyBlog = () => {
               </Box>
 
               <Grid container spacing={5} justifyContent="left">
-                <Grid item xs={12} sm={12} md={12} key={"A"}>
-                  <NotificationMessage
-                    data={{
-                      status: false,
-                      message:
-                        "The article you created should not be published due to data publishing restrictions.<br/>It is currently only accessible to you under your account.",
-                    }}
-                  />
-                </Grid>
+                {!isAdmin && (
+                  <Grid item xs={12} sm={12} md={12} key={"A"}>
+                    <NotificationMessage
+                      data={{
+                        status: false,
+                        message:
+                          "The article you created should not be published due to data publishing restrictions.<br/>It is currently only accessible to you under your account.",
+                      }}
+                    />
+                  </Grid>
+                )}
 
                 {blogs.length > 0
                   ? blogs.map((blog, index) => (
@@ -196,7 +208,12 @@ const MyBlog = () => {
                             <CardMedia
                               component="img"
                               height="140"
-                              image={`https://placehold.co/600x400?text=${blog.title}`}
+                              image={
+                                isAdmin
+                                  ? blog.blog_image_url?.original ||
+                                    "https://placehold.co/600x400?text=No+Image"
+                                  : `https://placehold.co/600x400?text=${blog.title}`
+                              }
                               alt={blog.title}
                               onError={(e) => {
                                 e.target.onerror = null;
@@ -234,22 +251,26 @@ const MyBlog = () => {
                                 &nbsp; {blog.formatted_created_at || "N/A"}
                               </Typography>
                               <Box sx={{ display: "flex", gap: 1 }}>
-                                <AnimateButton>
-                                  <IconButton
-                                    color="primary"
-                                    onClick={() => handleEditClick(blog)}
-                                  >
-                                    <Edit />
-                                  </IconButton>
-                                </AnimateButton>
-                                <AnimateButton>
-                                  <IconButton
-                                    color="error"
-                                    onClick={() => handleDeleteClick(blog)}
-                                  >
-                                    <Delete />
-                                  </IconButton>
-                                </AnimateButton>
+                                {!isAdmin && (
+                                  <>
+                                    <AnimateButton>
+                                      <IconButton
+                                        color="primary"
+                                        onClick={() => handleEditClick(blog)}
+                                      >
+                                        <Edit />
+                                      </IconButton>
+                                    </AnimateButton>
+                                    <AnimateButton>
+                                      <IconButton
+                                        color="error"
+                                        onClick={() => handleDeleteClick(blog)}
+                                      >
+                                        <Delete />
+                                      </IconButton>
+                                    </AnimateButton>
+                                  </>
+                                )}
                               </Box>
                             </Box>
                           </CardActions>
