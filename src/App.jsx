@@ -24,7 +24,7 @@ function App() {
       maxSnack={1}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
     >
-      {/* <Analytics /> */}
+      <Analytics />
       <ThemeProvider theme={themes[currentTheme]}>
         <CssBaseline />
         <Box display="flex" flexDirection="column" minHeight="100vh">
